@@ -9,17 +9,19 @@ namespace GraphEditorApp.Algorithms
         private Graph _graph;
         private List<AlgorithmStep> _steps;
         private HashSet<int> _visited;
+        private Stack<int> _stack; // для отображения текущего пути
 
         public List<AlgorithmStep> Run(Graph graph, int startVertexId)
         {
             _graph = graph;
             _steps = new List<AlgorithmStep>();
             _visited = new HashSet<int>();
+            _stack = new Stack<int>();
 
             _steps.Add(new AlgorithmStep
             {
-                Description = $"Начало DFS с вершины {graph.GetVertexById(startVertexId)?.Name}",
-                ActiveVertices = new List<Vertex> { graph.GetVertexById(startVertexId) }
+                Description = $"Начало DFS с вершины {_graph.GetVertexById(startVertexId)?.Name}. Стэк пуст.",
+                ActiveVertices = new List<Vertex> { _graph.GetVertexById(startVertexId) }
             });
 
             Dfs(startVertexId);
@@ -36,10 +38,11 @@ namespace GraphEditorApp.Algorithms
         private void Dfs(int v)
         {
             _visited.Add(v);
+            _stack.Push(v);
 
             _steps.Add(new AlgorithmStep
             {
-                Description = $"Заходим в {_graph.GetVertexById(v)?.Name}",
+                Description = $"Заходим в {_graph.GetVertexById(v)?.Name}. Стэк: {string.Join(" -> ", _stack.Select(id => _graph.GetVertexById(id)?.Name))}",
                 ActiveVertices = new List<Vertex> { _graph.GetVertexById(v) },
                 VisitedVertices = _visited.Select(id => _graph.GetVertexById(id)).ToList()
             });
@@ -53,7 +56,7 @@ namespace GraphEditorApp.Algorithms
 
                     _steps.Add(new AlgorithmStep
                     {
-                        Description = $"Идём по ребру к {_graph.GetVertexById(nb)?.Name}",
+                        Description = $"Идём по ребру к {_graph.GetVertexById(nb)?.Name}. Стэк: {string.Join(" -> ", _stack.Select(id => _graph.GetVertexById(id)?.Name))}",
                         ActiveVertices = new List<Vertex> { _graph.GetVertexById(nb) },
                         ActiveEdges = edge != null ? new List<Edge> { edge } : new List<Edge>(),
                         VisitedVertices = _visited.Select(id => _graph.GetVertexById(id)).ToList()
@@ -63,9 +66,11 @@ namespace GraphEditorApp.Algorithms
                 }
             }
 
+            _stack.Pop();
+
             _steps.Add(new AlgorithmStep
             {
-                Description = $"Выходим из {_graph.GetVertexById(v)?.Name}",
+                Description = $"Выходим из {_graph.GetVertexById(v)?.Name}. Стэк после выхода: {string.Join(" -> ", _stack.Select(id => _graph.GetVertexById(id)?.Name))}",
                 VisitedVertices = _visited.Select(id => _graph.GetVertexById(id)).ToList()
             });
         }

@@ -40,7 +40,7 @@ namespace GraphEditorApp.Algorithms
 
                         steps.Add(new AlgorithmStep
                         {
-                            Description = $"Посещаем вершину {graph.GetVertexById(nb)?.Name} через ребро {v}->{nb}",
+                            Description = $"Посещаем вершину {graph.GetVertexById(nb)?.Name} через ребро {v}->{nb}. Очередь: {string.Join(", ", queue.Select(id => graph.GetVertexById(id)?.Name))}",
                             ActiveVertices = new List<Vertex> { graph.GetVertexById(nb) },
                             ActiveEdges = edge != null ? new List<Edge> { edge } : new List<Edge>(),
                             VisitedVertices = visited.Select(id => graph.GetVertexById(id)).ToList(),

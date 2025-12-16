@@ -223,6 +223,7 @@ namespace GraphEditorApp.Forms
 
         private void BtnRunDFS_Click(object sender, EventArgs e)
         {
+            txtLog.Clear();
             graphControl.ClearAlgorithmResults();
             if (cbStart.SelectedItem == null) { MessageBox.Show("Выберите стартовую вершину"); return; }
             var v = cbStart.SelectedItem as Vertex;
@@ -235,6 +236,7 @@ namespace GraphEditorApp.Forms
 
         private void BtnRunDijkstra_Click(object sender, EventArgs e)
         {
+            txtLog.Clear();
             graphControl.ClearAlgorithmResults();
             if (cbStart.SelectedItem == null || cbTarget.SelectedItem == null) { MessageBox.Show("Выберите старт и цель"); return; }
             var s = (cbStart.SelectedItem as Vertex).Id;
@@ -248,6 +250,7 @@ namespace GraphEditorApp.Forms
 
         private void BtnRunPrim_Click(object sender, EventArgs e)
         {
+            txtLog.Clear();
             graphControl.ClearAlgorithmResults();
             var alg = new PrimAlgorithm();
             currentSteps = alg.Run(graphControl.CurrentGraph);
@@ -258,6 +261,7 @@ namespace GraphEditorApp.Forms
 
         private void BtnRunMaxFlow_Click(object sender, EventArgs e)
         {
+            txtLog.Clear();
             graphControl.ClearAlgorithmResults();
             if (cbSource.SelectedItem == null || cbSink.SelectedItem == null) { MessageBox.Show("Выберите source и sink"); return; }
             var s = (cbSource.SelectedItem as Vertex).Id;

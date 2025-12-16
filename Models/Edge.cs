@@ -1,6 +1,7 @@
-﻿using System.Drawing;
-using System.ComponentModel;
+﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Drawing;
 
 namespace GraphEditorApp.Models
 {
@@ -29,6 +30,9 @@ namespace GraphEditorApp.Models
         public Dictionary<string, string> Properties { get; set; }
 
         [Browsable(false)]
+        public string DisplayWeight { get; set; } = ""; // Новое поле для алгоритмов
+
+        [Browsable(false)]
         public string Display
         {
             get
@@ -36,6 +40,8 @@ namespace GraphEditorApp.Models
                 string arrow = IsDirected ? "→" : "—";
                 if (Capacity > 0)
                     return $"{FromVertexId} {arrow} {ToVertexId} (w:{Weight}, f:{Flow}/{Capacity})";
+                else if (!string.IsNullOrEmpty(DisplayWeight))
+                    return $"{FromVertexId} {arrow} {ToVertexId} ({DisplayWeight})";
                 else
                     return $"{FromVertexId} {arrow} {ToVertexId} (w:{Weight})";
             }
